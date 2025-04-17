@@ -7,6 +7,11 @@ android {
     namespace = "com.example.numberguessinggame"
     compileSdk = 35
 
+    // Enable view binding
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.numberguessinggame"
         minSdk = 24
