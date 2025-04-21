@@ -23,6 +23,15 @@ class ResultActivity : AppCompatActivity() {
             insets
         }
 
+        val result = intent.getBooleanExtra("result", false)
+        if (result) {
+            viewbinding.imageViewResult.setImageResource(R.drawable.happy)
+            viewbinding.textViewResult.text = "YOU WON!"
+        } else {
+            viewbinding.imageViewResult.setImageResource(R.drawable.sad)
+            viewbinding.textViewResult.text = "YOU LOST!"
+        }
+
         viewbinding.btnRestart.setOnClickListener {
             val intent = Intent(this@ResultActivity, GuessActivity::class.java)
             finish() // Close the current activity (remove it from the back stack)

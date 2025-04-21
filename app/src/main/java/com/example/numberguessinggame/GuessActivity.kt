@@ -43,6 +43,8 @@ class GuessActivity : AppCompatActivity() {
                 intent.putExtra("result", true)
                 finish() // Close the current activity (remove it from the back stack)
                 startActivity(intent)
+                return@setOnClickListener // Exit the function (if you don't put this,
+            // it will run the rest of the code and if remainingAttempts is 0, the result will be false)
             } else if (userGuess < secretNumber) {
                 viewbinding.textViewHint.text = "Go higher"
                 viewbinding.textView2.text = "Remaining attempts: $remainingAttempts"
