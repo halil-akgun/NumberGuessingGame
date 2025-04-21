@@ -2,6 +2,7 @@ package com.example.numberguessinggame
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,6 +10,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.numberguessinggame.databinding.ActivityGuessBinding
 
 class GuessActivity : AppCompatActivity() {
+
+    private var remainingAttempts = 5
+    private var secretNumber = 0
 
     private lateinit var viewbinding: ActivityGuessBinding
 
@@ -23,10 +27,37 @@ class GuessActivity : AppCompatActivity() {
             insets
         }
 
+        secretNumber = (1..100).random()
+        Log.e("Secret Number", "Secret Number: $secretNumber")
+
         viewbinding.btnGuess.setOnClickListener {
-            val intent = Intent(this@GuessActivity, ResultActivity::class.java)
-            finish() // Close the current activity (remove it from the back stack)
-            startActivity(intent)
+//            val intent = Intent(this@GuessActivity, ResultActivity::class.java)
+//            finish() // Close the current activity (remove it from the back stack)
+//            startActivity(intent)
+
+            remainingAttempts--
+
+            val userGuess = viewbinding.editTextInput.text.toString().toInt()
+            if (userGuess == secretNumber) {
+                val intent = Intent(this@GuessActivity, ResultActivity::class.java)
+                intent.putExtra("result", true)
+                finish() // Close the current activity (remove it from the back stack)
+                startActivity(intent)
+            } else if (userGuess < secretNumber) {
+                viewbinding.textViewHint.text = "Go higher"
+                viewbinding.textView2.text = "Remaining attempts: $remainingAttempts"
+            } else {
+                viewbinding.textViewHint.text = "Go lower"
+                viewbinding.textView2.text = "Remaining attempts: $remainingAttempts"
+            }
+
+            if (remainingAttempts == 0) {
+                val intent = Intent(this@GuessActivity, ResultActivity::class.java)
+                intent.putExtra("result", false)
+                finish() // Close the current activity (remove it from the back stack)
+                startActivity(intent)
+            }
+            viewbinding.editTextInput.text.clear()
         }
     }
 }
